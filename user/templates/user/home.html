@@ -1,0 +1,43 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<h3>Birthdays</h3>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="today-tab" data-toggle="tab" href="#today" role="tab" aria-controls="today" aria-selected="true">Today</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="upcomming-tab" data-toggle="tab" href="#upcomming" role="tab" aria-controls="upcomming" aria-selected="false">Upcomming</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="recent-tab" data-toggle="tab" href="#recent" role="tab" aria-controls="recent" aria-selected="false">Recent</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+  {% for person in today_birthdays %}
+  |name {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+
+  {% empty %}
+    no birtdays today
+  {% endfor %}
+
+  
+  </div>
+  <div class="tab-pane fade" id="upcomming" role="tabpanel" aria-labelledby="upcomming-tab">
+  {% for person in upcomming_birthdays %}
+  |name: {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+
+  {% empty %}
+    no upcomming birtdays
+  {% endfor %}
+  </div>
+  <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
+   {% for person in recent_birthdays %}
+  |name: {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+
+  {% empty %}
+    no recent birtdays
+  {% endfor %}
+  </div>
+</div>
+{% endblock content %}
