@@ -64,8 +64,9 @@ urlpatterns = [
         name='password_change_done'),
     
     path('profile/', user_views.profile , name='profile'),
-
     path('home/', user_views.home , name='home'),
+    path('add_birtday/', user_views.add_birthday , name='add_birthday'),
+    path('home/upload_csv', user_views.upload_csv , name='upload_csv'),
     path('home/', user_views.home , name='about'),
     path('home/', user_views.home , name='contact'),
     path('home/', user_views.home , name='c-index'),

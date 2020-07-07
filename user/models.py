@@ -22,14 +22,15 @@ class Profile(models.Model):
             img.save(self.image.path)
 
 class Birthday(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     fname=models.CharField(max_length=50)
-    mname=models.CharField(max_length=50,null=True)
+    mname=models.CharField(max_length=50,null=True,blank=True)
     lname=models.CharField(max_length=50)
     dob=models.DateField(auto_now=False)
     
 
     def __str__(self):
-        return self.fname+self.mname+self.lname
+        return str(self.fname or '')+str(self.mname or '')+str(self.lname or '')
 
     class Meta:
         managed = True
