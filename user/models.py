@@ -23,10 +23,10 @@ class Profile(models.Model):
 
 class Birthday(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    fname=models.CharField(max_length=50)
-    mname=models.CharField(max_length=50,null=True,blank=True)
-    lname=models.CharField(max_length=50)
-    dob=models.DateField(auto_now=False)
+    fname=models.CharField(max_length=50,verbose_name="Fisrt name")
+    mname=models.CharField(max_length=50,null=True,blank=True,verbose_name="Middle name")
+    lname=models.CharField(max_length=50,verbose_name="Last name")
+    dob=models.DateField(auto_now=False, verbose_name="Date of Birth")
     
 
     def __str__(self):

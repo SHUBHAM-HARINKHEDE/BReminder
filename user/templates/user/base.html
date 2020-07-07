@@ -22,7 +22,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">Django{{APPLICATION_NAME}}</a>
+      <a class="navbar-brand" href="#">BReminder</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -94,15 +94,14 @@
 			<div class="col-md-4">
 				<div class="card"> 
 					<div class="card-header">
-						our sidebar
+						Notification
 					</div>   
 					<div class="card-body">
-						<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, quidem voluptas placeat neque quas mollitia nihil, distinctio laborum voluptates dolores expedita esse. Nulla quas eum quisquam quos iure, dolorum nisi.
+						Birthdays in current month: 					
 						<ul class="list-group">
-							<li class="list-group-item list-group-item-light">Latest Post</li>
-							<li class="list-group-item list-group-item-light">Anouncement</li>	
-							<li class="list-group-item list-group-item-light">Calender</li>	
-							<li class="list-group-item list-group-item-light">etc.</li>	
+							{% for person in birthays_this_month %}
+							<li class="list-group-item list-group-item-light">{{person.fname}}</li>
+							{% endfor %}
 						</ul>
 						</p>
 					</div>	

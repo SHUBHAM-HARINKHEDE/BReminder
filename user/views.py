@@ -10,6 +10,8 @@ from .forms import (UserRegisterForm ,
                     ProfileUpdateForm,
                     BirthdayAddForm
 )
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import DeleteView
 # Create your views here.
 @login_required 
 def index(request):
@@ -33,28 +35,32 @@ def index(request):
 @login_required 
 def home(request):
     today = datetime.date.today()
-    nextday = today + datetime.timedelta(days = 1)
-    nexr30thday = today + datetime.timedelta(days = 20)
+    #nextday = today + datetime.timedelta(days = 1)
+    #nexr30thday = today + datetime.timedelta(days = 20)
     print(today.day,today.month)
     #today
     today_birthdays=Birthday.objects.filter(dob__day=today.day,dob__month=today.month,user=request.user)
     #upcomming
-    criterion1 = Q(dob__day__gt=today.day,dob__month=today.month)
-    criterion2 = Q(dob__month__gt=today.month)
+    criterion1 = Q(dob__day__gt=today.day,dob__month=today.month,user=request.user)
+    criterion2 = Q(dob__month__gt=today.month,user=request.user)
     #criterion3 = Q(dob__month__lt=today.month)
     upcomming_birthdays1= Birthday.objects.filter(criterion1).order_by('dob__month','dob__day')
     upcomming_birthdays2=Birthday.objects.filter(criterion2).order_by('dob__month','dob__day')
-    upcomming_birthdays3=Birthday.objects.filter(criterion3).order_by('dob__month','dob__day')
+    #upcomming_birthdays3=Birthday.objects.filter(criterion3).order_by('dob__month','dob__day')
     upcomming_birthdays=upcomming_birthdays1 | upcomming_birthdays2 #|upcomming_birthdays3
 
     print(type(upcomming_birthdays))
     #upcomming_birthdays=Birthday.objects.filter(dob__day__range=[nextday.day,nexr30thday.day],user=request.user)
-    recent_birthdays=Birthday.objects.filter(dob__day__lt=today.day,dob__month__lt=today.month,user=request.user)
+    recent_birthdays1=Birthday.objects.filter(dob__day__lt=today.day,dob__month=today.month,user=request.user).order_by('-dob__month','-dob__day')
+    recent_birthdays2=Birthday.objects.filter(dob__month__lt=today.month,user=request.user).order_by('-dob__month','-dob__day')
+    recent_birthdays=recent_birthdays1 | recent_birthdays2
     print(today_birthdays,upcomming_birthdays)
+    all_birthdays=Birthday.objects.filter(user=request.user).order_by('dob__month','dob__day')
     context={
         'today_birthdays' : today_birthdays,
         'upcomming_birthdays' : upcomming_birthdays,
-        'recent_birthdays' : recent_birthdays
+        'recent_birthdays' : recent_birthdays,
+        'all_birthdays' : all_birthdays
     }
     return render(request,'user/home.html',context)
 
@@ -94,13 +100,16 @@ def profile(request):
     
     return render(request,'user/profile.html',context)
 def add_birthday(request):
+    
     if request.method == 'POST':
-        b_form = BirthdayAddForm(request.POST, instance=request.user)
+        b_form = BirthdayAddForm(request.POST)
+        b_form.user=request.user
         
         if b_form.is_valid():
-            b_form.save()
-            messages.success(request, f'Your Profile has been Updated!')
-            return redirect('home')
+            bd = b_form.save(commit=False)
+            bd.user = request.user
+            bd.save()
+            messages.success(request, f'Birthday has been added successfuly.')
 
     else:
         b_form = BirthdayAddForm(instance=request.user)
@@ -138,3 +147,47 @@ def upload_csv(request):
     return redirect('add_birthday')
     
 
+def about(request):
+    return render(request,'user/about.html')
+
+def contact(request):
+    
+    if request.method == 'POST':   
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        subject=request.POST.get('subject')
+        message=request.POST.get('message')
+        contact=Contact()
+        contact.name=name
+        contact.email=email
+        contact.subject=subject
+        contact.message=message
+        contact.save()     
+        try:
+            send_mail(
+            subject,
+            message,
+            email,
+            ['shubham.harin@gmail.com'],
+            fail_silently=False,
+            )
+            messages.success(request, f'We will come back to you soon..')
+        except:
+            print("Failed to send Mail")
+            messages.error(request, f'Something went wrong!')
+    return render(request,'user/contact.html')
+
+class BirthdayDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Birthday
+    success_url = '/home/#all'
+    success_message = "Birthday was deleted successfully."
+
+    def test_func(self):
+        birthday = self.get_object()
+        if self.request.user == birthday.user:
+            return True
+        return False
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(BirthdayDeleteView, self).delete(request, *args, **kwargs)

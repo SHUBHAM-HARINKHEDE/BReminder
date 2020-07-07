@@ -24,6 +24,7 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['mobile','whatsapp_number','image']
        
 class BirthdayAddForm(forms.ModelForm):
+    
     class Meta:
         model = Birthday
         fields = ['fname','mname','lname','dob']

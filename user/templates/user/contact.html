@@ -1,0 +1,115 @@
+{% extends 'user/base.html' %}
+{% block content %}
+	<div class="card">  
+		<div class="card-body">
+			<!--Section: Contact v.2-->
+            <section class="mb-4">
+
+                <!--Section heading-->
+                <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
+                <hr>
+                <!--Section description-->
+                <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
+                    a matter of hours to help you.</p>
+
+                <div class="row">
+
+                    <!--Grid column-->
+                    <div class="col-md-12 mb-md-0 mb-5">
+                        <form id="contact-form" name="contact-form" action="" method="POST">
+                            {% csrf_token %}
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <label for="name" class="">Your name</label>
+                                        <input type="text" id="name" name="name" class="form-control">
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <label for="email" class="">Your email</label>
+                                        <input type="text" id="email" name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+
+                            </div>
+                            <!--Grid row-->
+
+                            <!--Grid row-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <label for="subject" class="">Subject</label>
+                                        <input type="text" id="subject" name="subject" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Grid row-->
+
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-12">
+
+                                    <div class="md-form">
+                                        <label for="message">Your message</label>
+                                        <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                                        <br>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--Grid row-->
+
+                            <div class="text-center text-md-left">
+                                <button class="btn btn-primary" type="submit">Send</button>
+                            </div>
+
+                            <div class='row'>
+                                <!--Grid column-->
+                                <div class="col-md-4 text-center">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fa fa-map-marker mt-4 fa-2x"></i>
+                                            <p>Bangalore, Karnataka</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--Grid column-->
+                                <div class="col-md-4 text-center">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fa fa-phone mt-4 fa-2x"></i>
+                                            <p>+91 940483807</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--Grid column-->
+                                <div class="col-md-4 text-center">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fa fa-envelope mt-4 fa-2x"></i>
+                                            <p>shubham.harin@gmail.com</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--Grid column-->
+                            </div>
+
+                        </form>
+                    </div>
+                    <!--Grid column-->
+                </div>
+
+            </section>
+            <!--Section: Contact v.2-->
+				
+			
+	    </div>
+	</div>
+{% endblock content %}

@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views 
 #user views
 from user import views as user_views
+from user.views import BirthdayDeleteView
 urlpatterns = [
     path('admin/', admin.site.urls),
     #login
@@ -67,8 +68,9 @@ urlpatterns = [
     path('home/', user_views.home , name='home'),
     path('add_birtday/', user_views.add_birthday , name='add_birthday'),
     path('home/upload_csv', user_views.upload_csv , name='upload_csv'),
-    path('home/', user_views.home , name='about'),
-    path('home/', user_views.home , name='contact'),
+    path('about/',user_views.about,name='about'),
+    path('contact/',user_views.contact,name='contact'),
+    path('birthday/<int:pk>/delete/', BirthdayDeleteView.as_view(), name='birthday-delete'),
     path('home/', user_views.home , name='c-index'),
     path('home/', user_views.home , name='profile_settings'),
     path('',user_views.index,name="index"),

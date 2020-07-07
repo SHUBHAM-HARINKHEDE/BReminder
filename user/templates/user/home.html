@@ -11,33 +11,82 @@
   <li class="nav-item">
     <a class="nav-link" id="recent-tab" data-toggle="tab" href="#recent" role="tab" aria-controls="recent" aria-selected="false">Recent</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">All</a>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+  <br>
+  <div class="list-group">
   {% for person in today_birthdays %}
-  |name {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+  <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+      <p class="list-group-item-text">{{person.dob}}</p>
+    </a>
 
   {% empty %}
-    no birtdays today
+    <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">No Birtdays today </h4>
+      <p class="list-group-item-text">:)</p>
+    </a>
   {% endfor %}
-
+  </div>  
   
   </div>
   <div class="tab-pane fade" id="upcomming" role="tabpanel" aria-labelledby="upcomming-tab">
+  <br>
+  <div class="list-group">
   {% for person in upcomming_birthdays %}
-  |name: {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+    <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+      <p class="list-group-item-text">{{person.dob}}</p>
+    </a>
+  
 
   {% empty %}
-    no upcomming birtdays
+     <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">Nothing to List</h4>
+      <p class="list-group-item-text">:)</p>
+    </a>
   {% endfor %}
+   </div>
   </div>
   <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
-   {% for person in recent_birthdays %}
-  |name: {{person.fname}} | {{person.lname}} | {{person.dob}}|<br>
+  <br>
+  <div class="list-group">
+  {% for person in recent_birthdays %}
+  <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+      <p class="list-group-item-text">{{person.dob}}</p>
+    </a>
 
   {% empty %}
-    no recent birtdays
+    <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">Nothing to List</h4>
+      <p class="list-group-item-text">:)</p>
+    </a>
   {% endfor %}
+  </div>
+  </div>
+  <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+  <br>
+  <div class="list-group">
+  {% for person in all_birthdays %}
+  <div class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} <a class="btn btn-outline-danger" href={% url 'birthday-delete' person.id %}>Delete</a></h4>
+      <p class="list-group-item-text">{{person.dob}}</p>
+      
+  </div>
+
+  {% empty %}
+    <a href="#" class="list-group-item">
+      <h4 class="list-group-item-heading">Nothing to List</h4>
+      <p class="list-group-item-text">please add birtdays :)</p>
+    </a>
+  {% endfor %}
+  </div>  
+  
   </div>
 </div>
 {% endblock content %}
