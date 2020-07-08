@@ -172,8 +172,8 @@ def contact(request):
             fail_silently=False,
             )
             messages.success(request, f'We will come back to you soon..')
-        except:
-            print("Failed to send Mail")
+        except Exception as e:
+            print(e)
             messages.error(request, f'Something went wrong!')
     return render(request,'user/contact.html')
 
