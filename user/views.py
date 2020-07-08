@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from user.models import Birthday,Profile,Contact
 from django.db.models import Q
-import datetime,csv,io 
+import datetime,csv,io,os
 from django.contrib import messages       
 from django.contrib.auth.decorators import login_required  
 from .forms import (UserRegisterForm ,
@@ -170,7 +170,7 @@ def contact(request):
             subject,
             message,
             email,
-            ['shubham.harin@gmail.com'],
+            [os.environ['EMAIL_HOST_USER']],
             fail_silently=False,
             )
             messages.success(request, f'We will come back to you soon..')
