@@ -15,7 +15,7 @@
 	<!-- CSS
 	 <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
     -->
-    <title></title>
+    <title>Breminder</title>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	
     
@@ -99,6 +99,8 @@
 						Notification
 					</div>   
 					<div class="card-body">
+						Scan QR code to connect:
+						<image src="/media/qr.png" alt='QR code'>
 						Birthdays in current month: 					
 						<ul class="list-group">
 							{% for person in birthays_this_month %}
