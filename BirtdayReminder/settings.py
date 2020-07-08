@@ -25,7 +25,7 @@ SECRET_KEY = '$-89i6p8*vf-m1i7ga@37q4m1^=h7158#mwrwei9twl=j@7qt3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://bdayremider.herokuapp.com/']
 
 
 # Application definition
