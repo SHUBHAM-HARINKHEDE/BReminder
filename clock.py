@@ -16,6 +16,18 @@ print(c.fetchall())
 
 
 sched = BlockingScheduler()
+@sched.scheduled_job('interval', minutes=1)
+def timed_job():
+    print('Running...')
+    message = client.messages \
+                .create(
+                     from_='whatsapp:+14155238886',
+                     body='Running...',
+                     to='whatsapp:+919404838807'
+                 )
+    print(message.sid)
+
+
 @sched.scheduled_job('cron',day_of_week='*', hour=1, minute=29)
 def scheduled_job():
     

@@ -20,23 +20,8 @@ from django.contrib.auth.hashers import check_password
 # Create your views here.
 @login_required 
 def index(request):
-    today = datetime.date.today()
-    #yesterday = today - datetime.timedelta(days = 1)
-    #tomorrow = today + datetime.timedelta(days = 1)
-    print(today.day,today.month)
-    today_birthdays=Birthday.objects.filter(dob__day=today.day,dob__month=today.month)
-    criterion1 = Q(dob__day__gt=today.day,dob__month=today.month)
-    criterion2 = Q(dob__month__gt=today.month)
-    upcomming_birthdays= Birthday.objects.filter(criterion1 & criterion2)
-    print("Birthdays\nToday:")
-    for b in today_birthdays:
-        print(b)
-    print("Upcomming birthdays:")
-    for b in upcomming_birthdays:
-        print(b)
-
-
     return HttpResponse("hi")
+    
 @login_required 
 def home(request):
     today = datetime.date.today()
@@ -81,6 +66,7 @@ def register(request):
         form = UserRegisterForm(initial={'email':request.GET.get('email')})
     return render(request, 'user/register.html', {'form':form})
 
+@login_required 
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -104,6 +90,8 @@ def profile(request):
        }
     
     return render(request,'user/profile.html',context)
+
+@login_required 
 def add_birthday(request):
     
     if request.method == 'POST':
@@ -125,6 +113,7 @@ def add_birthday(request):
     
     return render(request,'user/add_birtday.html',context)
 
+@login_required 
 def upload_csv(request):
     print('check-1')
     if request.method == 'POST':
