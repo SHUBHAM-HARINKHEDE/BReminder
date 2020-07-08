@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from user.models import Birthday,Profile
+from user.models import Birthday,Profile,Contact
 from django.db.models import Q
 import datetime,csv,io 
 from django.contrib import messages       
