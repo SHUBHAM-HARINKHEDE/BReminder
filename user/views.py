@@ -165,15 +165,16 @@ def contact(request):
         contact.subject=subject
         contact.message=message
         contact.save()     
+        message="Hello,\n"+message+"\nRegards,\n"+name+"\n"+email
         try:
             send_mail(
             subject,
             message,
             email,
-            [os.environ['EMAIL_HOST_USER']],
+            [os.environ.get('EMAIL_HOST_USER')],
             fail_silently=False,
             )
-            messages.success(request, f'We will come back to you soon..')
+            messages.success(request, f'We have recieved your query,we will come back to you soon..')
         except Exception as e:
             print(e)
             messages.error(request, f'Something went wrong!')
