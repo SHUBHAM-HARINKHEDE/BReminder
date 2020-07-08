@@ -12,6 +12,8 @@ from .forms import (UserRegisterForm ,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import DeleteView
+from django.core.mail import send_mail
+
 # Create your views here.
 @login_required 
 def index(request):
