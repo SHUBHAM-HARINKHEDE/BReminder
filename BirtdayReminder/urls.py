@@ -71,6 +71,7 @@ urlpatterns = [
     path('about/',user_views.about,name='about'),
     path('contact/',user_views.contact,name='contact'),
     path('birthday/<int:pk>/delete/', BirthdayDeleteView.as_view(), name='birthday-delete'),
+    path('delete_user/', user_views.delete_user_profile , name='delete_user'),
     path('home/', user_views.home , name='c-index'),
     path('home/', user_views.home , name='profile_settings'),
     path('',user_views.index,name="index"),

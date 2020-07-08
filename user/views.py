@@ -180,6 +180,16 @@ def contact(request):
             messages.error(request, f'Something went wrong!')
     return render(request,'user/contact.html')
 
+@login_required
+def delete_user_profile(request):
+    if request.method == 'POST':
+        if check_password(request.POST.get('password'),request.user.password):   
+            request.user.delete()
+            return render(request,'user/delete_profile_done.html')
+        else:
+            messages.error(request,"Please enter correct password to procced!",)
+    return render(request,'user/delete_profile.html')
+
 class BirthdayDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Birthday
     success_url = '/home/#all'

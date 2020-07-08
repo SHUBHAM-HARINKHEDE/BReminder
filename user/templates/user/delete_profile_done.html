@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% block content %}
+	<div class="card">  
+		<div class="card-body">
+			<h1>Your profile has been deleted!</h1>
+			<div class="border-top pt-3">
+				<small class="text-muted">
+					<a class="ml-2" href="{% url 'login' %}">Login as different user</a>
+                    <a class="ml-2" href="{% url 'register' %}">Sing up Again</a>
+				</small>
+			</div>
+	    </div>
+	</div>
+{% endblock content %}

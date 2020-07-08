@@ -1,0 +1,38 @@
+{% extends 'user/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="card">  
+		<div class="card-body">
+        <legend class="border-bottom mb-4">Delete Profile</legend>
+            <p> Before confirming that you would like your profile deleted, we'd like to take a moment to explain the implications of deletion:
+            <ul>
+                <li>
+                    Deletion is irreversible, and you will have no way to regain any of your original content, should this deletion be carried out and you change your mind later on.
+                    <!--Your Birthdays will remain on the site, but will be disassociated and anonymized (the author will be listed as "user8611192") and will not indicate your authorship even if you later return to the site. -->
+                </li>
+                <li>
+                Confirming deletion will only delete your profile on BReminder,<!-- - it will not affect any of your other profiles on the  network. If you want to delete multiple profiles, you'll need to visit each site separately and request deletion of those individual profiles.-->
+                </li>
+            </ul>
+
+    
+
+ 
+            </p>
+			<form action="" method="POST">
+		        {% csrf_token %}
+                <input type='checkbox' onchange="document.getElementById('delete').disabled = !this.checked;">
+                I have read the information stated above and understand the implications of having my profile deleted.
+                I wish to proceed with the deletion of my profile.
+                <fieldset class="form-group">
+		        	<label>Password</lable>
+                    <input type='password' name='password'/>   
+		        </fieldset>
+		        <div class="form-group">
+		        	<button class="btn btn-outline-danger" type="submit" id='delete' disabled>Delete Profile</button>
+		        </div>
+			</form>
+			
+	</div>
+	</div>
+{% endblock content %}
