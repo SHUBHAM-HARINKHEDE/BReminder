@@ -6,8 +6,8 @@ from user import validators as val
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg',upload_to='profile_pics')
-    mobile = models.CharField(max_length=15, validators=[val.validate_mobile_number],null=True)
-    whatsapp_number = models.CharField(max_length=15, validators=[val.validate_mobile_number],null=True)
+    mobile = models.CharField(max_length=15, validators=[val.validate_mobile_number],null=True,blank=True)
+    whatsapp_number = models.CharField(max_length=15, validators=[val.validate_mobile_number],null=True,blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

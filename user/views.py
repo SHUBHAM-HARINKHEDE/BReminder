@@ -21,7 +21,7 @@ from django.contrib.auth.hashers import check_password
 @login_required 
 def index(request):
     return HttpResponse("hi")
-    
+
 @login_required 
 def home(request):
     today = datetime.date.today()
@@ -196,3 +196,4 @@ class BirthdayDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(BirthdayDeleteView, self).delete(request, *args, **kwargs)
+
