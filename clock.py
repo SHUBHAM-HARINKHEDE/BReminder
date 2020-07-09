@@ -1,11 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from twilio.rest import Client
-from os import environ
-# Your Account Sid and Auth Token from twilio.com/console
-account_sid = environ['TWILIO_ACCOUNT_SID']
-auth_token = environ['TWILIO_AUTH_TOKEN']
-client = Client(account_sid, auth_token)
-
+import os
 import sqlite3
 conn = sqlite3.connect('db.sqlite3')
 c = conn.cursor()
@@ -14,42 +9,48 @@ c.execute("SELECT * FROM user_birthday")
 
 print(c.fetchall())
 
+account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+twilio_whatsapp_number = os.environ.get('TWILIO_WHATSAPP_NUMBER')
+recipient = '+919404838807'
+client = Client(account_sid, auth_token)
+msg_body="running"
 
 sched = BlockingScheduler()
 @sched.scheduled_job('interval', minutes=1)
 def timed_job():
-    print('Running...')
     message = client.messages \
                 .create(
-                     from_='whatsapp:+14155238886',
-                     body='Running...',
-                     to='whatsapp:+919404838807'
+                     body=msg_body,
+                     from_='whatsapp:'+twilio_whatsapp_number,
+                     to='whatsapp:'+recipient
                  )
+
     print(message.sid)
 
 
-@sched.scheduled_job('cron',day_of_week='*', hour=1, minute=29)
+
+@sched.scheduled_job('cron',day_of_week='*', hour=00, minute=00)
 def scheduled_job():
-    
-    
-
-    '''
-    message = client.messages \
-                    .create(
-                        body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-                        from_='+12058138131',
-                        to='+919404838807'
-                    )
-    
-    print(message.sid)
-    '''
     message = client.messages \
                 .create(
-                     from_='whatsapp:+14155238886',
-                     body='Your appointment is coming up on July 21 at 3PM',
-                     to='whatsapp:+919404838807'
+                     body=msg_body,
+                     from_='whatsapp:'+twilio_whatsapp_number,
+                     to='whatsapp:'+recipient
                  )
+
     print(message.sid)
-    
 
 sched.start()
+
+##########################################################################
+'''
+message = client.messages \
+                .create(
+                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+                     from_='+12058138131',
+                     to='+919404838807'
+                 )
+
+print(message.sid)
+'''
