@@ -16,3 +16,4 @@ sqlparse==0.3.1
 twilio==6.43.0
 tzlocal==2.1
 urllib3==1.25.9
+whitenoise==5.1.0
