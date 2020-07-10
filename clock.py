@@ -32,17 +32,21 @@ twilio_whatsapp_number = os.environ.get('TWILIO_WHATSAPP_NUMBER')
 client = Client(account_sid, auth_token)
 msg_body_title='Birthdays today:' 
 
+#send msg if recipient != None 
 def send_msg(msg_body,recipient):
     if recipient == None:
         return
-    message = client.messages \
-                    .create(
-                        body=msg_body,
-                        from_='whatsapp:'+twilio_whatsapp_number,
-                        to='whatsapp:'+recipient
-                    )
-    print(message.sid)
-
+    try:
+        message = client.messages \
+                        .create(
+                            body=msg_body,
+                            from_='whatsapp:'+twilio_whatsapp_number,
+                            to='whatsapp:'+recipient
+                        )
+        print(message.sid)
+    except Exception e:
+        print("message not sent:",str(e))
+#fetch todays birthdays calls send_msg function
 def today_birthday():
     Session = sessionmaker(bind = engine)
     session = Session()
@@ -51,8 +55,7 @@ def today_birthday():
     result = session.query(Birthday,Profile).filter(Birthday.user_id==Profile.user_id,
                                                     extract('day', Birthday.dob)==today.day,
                                                     extract('month', Birthday.dob)==today.month,
-                                                    (Profile.whatsapp !=None),
-                                                #(Profile.mobile != None) | (Profile.whatsapp !=None),
+                                                    (Profile.whatsapp !=None),            
                                                     ).order_by(Profile.user_id)
                                         
                                             
@@ -71,26 +74,12 @@ def today_birthday():
     send_msg(message_body,recipient)
 
 sched = BlockingScheduler()
-@sched.scheduled_job('interval', minutes=1)
-def timed_job():
-    today_birthday()
-    
-
-
+#sends reminder @00:00 IST
 @sched.scheduled_job('cron',day_of_week='*', hour=00, minute=00)
 def scheduled_job():
-    today_birthday()
+    try:
+        today_birthday()
+    except Exception e:
+        print(e)
 
 sched.start()
-
-##########################################################################
-'''
-message = client.messages \
-                .create(
-                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-                     from_='+12058138131',
-                     to='+919404838807'
-                 )
-
-print(message.sid)
-'''

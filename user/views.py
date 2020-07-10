@@ -17,16 +17,14 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 
 
-# Create your views here.
-@login_required 
+# views
+
 def index(request):
-    return HttpResponse("hi")
+    return render(request,'user/index.html')
 
 @login_required 
 def home(request):
     today = datetime.date.today()
-    #nextday = today + datetime.timedelta(days = 1)
-    #nexr30thday = today + datetime.timedelta(days = 20)
     print(today.day,today.month)
     #today
     today_birthdays=Birthday.objects.filter(dob__day=today.day,dob__month=today.month,user=request.user)
@@ -44,7 +42,7 @@ def home(request):
     recent_birthdays1=Birthday.objects.filter(dob__day__lt=today.day,dob__month=today.month,user=request.user).order_by('-dob__month','-dob__day')
     recent_birthdays2=Birthday.objects.filter(dob__month__lt=today.month,user=request.user).order_by('-dob__month','-dob__day')
     recent_birthdays=recent_birthdays1 | recent_birthdays2
-    print(today_birthdays,upcomming_birthdays)
+    #all birthday for specific user
     all_birthdays=Birthday.objects.filter(user=request.user).order_by('dob__month','dob__day')
     context={
         'today_birthdays' : today_birthdays,
@@ -55,6 +53,8 @@ def home(request):
     return render(request,'user/home.html',context)
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -119,13 +119,9 @@ def upload_csv(request):
     if request.method == 'POST':
         try:
             csv_file = request.FILES['csv_file']    # let's check if it is a csv file
-            print('check-2')
             data_set = csv_file.read().decode('UTF-8')    # setup a stream which is when we loop through each line we are able to handle a data in a stream
-            print('check-3')
             io_string = io.StringIO(data_set)
-            print('check-4')
             next(io_string)
-            print('check-5')
             for row in csv.reader(io_string, delimiter=',', quotechar="|"):
                 _, created=Birthday.objects.update_or_create(
                         fname=row[0],

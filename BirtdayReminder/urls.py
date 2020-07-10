@@ -26,7 +26,7 @@ from user.views import BirthdayDeleteView
 urlpatterns = [
     path('admin/', admin.site.urls),
     #login
-    path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='user/login.html',redirect_authenticated_user=True), name='login'),
     #logout
     path('logout/', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
     #register
@@ -72,8 +72,6 @@ urlpatterns = [
     path('contact/',user_views.contact,name='contact'),
     path('birthday/<int:pk>/delete/', BirthdayDeleteView.as_view(), name='birthday-delete'),
     path('delete_user/', user_views.delete_user_profile , name='delete_user'),
-    path('home/', user_views.home , name='c-index'),
-    path('home/', user_views.home , name='profile_settings'),
     path('',user_views.index,name="index"),
 ]
 #to access media files on browswer

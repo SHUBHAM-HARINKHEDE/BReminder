@@ -28,17 +28,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
+			{% if user.is_authenticated %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'home' %}">Home</a>
 			</li>
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'about' %}">About</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'contact' %}">Contact</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{% url 'c-index' %}">For Business</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav " >
