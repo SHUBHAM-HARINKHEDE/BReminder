@@ -1,4 +1,4 @@
 myvenv/
 *.pyc
 .env
-.csv
+*.csv
