@@ -44,7 +44,7 @@ def send_msg(msg_body,recipient):
                             to='whatsapp:'+recipient
                         )
         print(message.sid)
-    except Exception e:
+    except Exception as e:
         print("message not sent:",str(e))
 #fetch todays birthdays calls send_msg function
 def today_birthday():
@@ -79,7 +79,7 @@ sched = BlockingScheduler()
 def scheduled_job():
     try:
         today_birthday()
-    except Exception e:
+    except Exception as e:
         print(e)
 
 sched.start()
