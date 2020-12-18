@@ -7,3 +7,5 @@ BReminder reminds you bithdays of you favorite people and helps to wish your fri
 3. scan QR code with registerd whatsapp no and send join powerful-eight message.
 4. Now add birthdays.
 5. All set, now you will start getting birtday notification on your whatsapp number.
+
+Note: Notification feature is not avaible as project deployed on free tier.
