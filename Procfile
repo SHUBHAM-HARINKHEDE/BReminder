@@ -1,3 +1,3 @@
   
-web: gunicorn BirtdayReminder.wsgi
+web: gunicorn BirthdayReminder.wsgi
 clock: python clock.py

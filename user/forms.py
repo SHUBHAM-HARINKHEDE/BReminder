@@ -24,10 +24,13 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['mobile','whatsapp_number','image']
        
 class BirthdayAddForm(forms.ModelForm):
-    
+    dob = forms.DateField(widget=forms.TextInput(attrs=
+                                {
+                                    'type':'date'
+                                }))
     class Meta:
         model = Birthday
-        fields = ['fname','mname','lname','dob']
+        fields = ['fname','mname','lname','dob','mobile','whatsapp_number','email']
 
 '''
 class SkillAddForm(forms.ModelForm):

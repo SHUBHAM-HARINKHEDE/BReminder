@@ -11,10 +11,12 @@ from .forms import (UserRegisterForm ,
                     BirthdayAddForm
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, UpdateView, DetailView
 from django.core.mail import send_mail
 #to check password
 from django.contrib.auth.hashers import check_password
+#to get back to previous page
+from django.urls import reverse
 
 
 # views
@@ -22,8 +24,13 @@ from django.contrib.auth.hashers import check_password
 def index(request):
     return render(request,'user/index.html')
 
+def handler404(request, exception):
+    return render(request,'user/404.html')
+def handler500(request, exception):
+    return render(request,'user/500.html')
+
 @login_required 
-def home(request):
+def home(request,*args):
     today = datetime.date.today()
     print(today.day,today.month)
     #today
@@ -128,6 +135,9 @@ def upload_csv(request):
                         mname =row[1],
                         lname=row[2],
                         dob=row[3],
+                        mobile=row[4],
+                        whatsapp_number=row[5],
+                        email=row[6],
                         user=request.user
                         )       
             messages.success(request, f'birthays has been added.')
@@ -167,6 +177,20 @@ def contact(request):
             print(e)
             messages.error(request, f'Something went wrong!')
     return render(request,'user/contact.html')
+    
+@login_required
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response)
+    writer.writerow(['First Name','Middle Name','Last Name','DOB'])
+
+    for birthday in Birthday.objects.filter(user=request.user).order_by('dob__month','dob__day'):
+        writer.writerow([birthday.fname,birthday.mname,birthday.lname,birthday.dob])
+
+    response['Content-Disposition'] = 'attachment; filename="birthday.csv"'
+    
+    return response
 
 @login_required
 def delete_user_profile(request):
@@ -177,6 +201,15 @@ def delete_user_profile(request):
         else:
             messages.error(request,"Please enter correct password to procced!",)
     return render(request,'user/delete_profile.html')
+
+@login_required
+def delete_user_birthdays(request):
+    if Birthday.objects.filter(user=request.user).delete() :
+        messages.success(request,"All birthdays are deleted!",)
+    else:
+        messages.error(request,"Failed to delete birthdays!",)
+    return redirect('home')
+    
 
 class BirthdayDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Birthday
@@ -192,4 +225,30 @@ class BirthdayDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(BirthdayDeleteView, self).delete(request, *args, **kwargs)
+
+class BirthdayUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
+    model = Birthday
+    fields = ['fname','mname','lname','dob','mobile','whatsapp_number','email']
+    
+    
+    def form_valid(self,form):
+        form.instance.user =self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        birtday = self.get_object()
+        if self.request.user == birtday.user:
+            return True
+        return False
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse('home'))
+
+class BirthdayDetailView(DetailView):
+    model = Birthday
+    #<app>/<model>_<viewtype>.html
+
+
+
+
+
 

@@ -20,10 +20,22 @@
   <br>
   <div class="list-group">
   {% for person in today_birthdays %}
-  <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+  <span class="list-group-item">
+      <a href={% url 'birthday-detail' person.id %}>
+        <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+      </a>
       <p class="list-group-item-text">{{person.dob}}</p>
-    </a>
+      {% if person.whatsapp_number %}
+      <a style = "color: black !important;" href="https://api.whatsapp.com/send?phone={{person.whatsapp_number}}&text=Happy%20Birthday" class="fa fa-whatsapp"> </a>
+      {% endif %}
+      {% if person.mobile %}
+      <a style = "color: black !important;" href="tel:{{person.mobile}}" class="fa fa-phone"></a>
+      <a style = "color: black !important;" href="sms:{{person.mobile}};?&body=Happy%20Birthday" class="fa fa-commenting-o" ></a>
+      {% endif %}
+      {% if person.email %}
+      <a style = "color: black !important;" href="mailto:{{person.email}};?&body=Happy%20Birthday" class="fa fa-envelope-o" ></a>
+      {% endif %}
+  </span>
 
   {% empty %}
     <a href="#" class="list-group-item">
@@ -38,8 +50,8 @@
   <br>
   <div class="list-group">
   {% for person in upcomming_birthdays %}
-    <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+    <a href="{% url 'birthday-detail' person.id %}" class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.mname}} {{person.lname}} </h4>
       <p class="list-group-item-text">{{person.dob}}</p>
     </a>
   
@@ -56,8 +68,8 @@
   <br>
   <div class="list-group">
   {% for person in recent_birthdays %}
-  <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} </h4>
+  <a href="{% url 'birthday-detail' person.id %}" class="list-group-item">
+      <h4 class="list-group-item-heading">{{person.fname}} {{person.mname}} {{person.lname}} </h4>
       <p class="list-group-item-text">{{person.dob}}</p>
     </a>
 
@@ -74,9 +86,18 @@
   <div class="list-group">
   {% for person in all_birthdays %}
   <div class="list-group-item">
-      <h4 class="list-group-item-heading">{{person.fname}} {{person.lname}} <a class="btn btn-outline-danger" href={% url 'birthday-delete' person.id %}>Delete</a></h4>
+      <div class="row">
+        <div class="col">
+          <h4 class="list-group-item-heading d-flex justify-content-start">{{person.fname}} {{person.mname}} {{person.lname}}</h4>
+        </div>
+        <div class="col-sm-1">
+          <div class="d-flex justify-content-end">
+            <a class="btn btn-outline-warning ml-md-auto" href={% url 'birthday-update' person.id %} >Modify</a> &nbsp
+            <a class="btn btn-outline-danger" href={% url 'birthday-delete' person.id %}>Delete</a> 
+          </div>
+        </div>
+      </div>
       <p class="list-group-item-text">{{person.dob}}</p>
-      
   </div>
 
   {% empty %}
@@ -89,4 +110,16 @@
   
   </div>
 </div>
+
+<script>
+
+$(document).ready(function(){
+
+  if(window.location.hash != "") {
+    $('a[href="' + window.location.hash + '"]').click()
+  }
+
+});
+</script>
+
 {% endblock content %}

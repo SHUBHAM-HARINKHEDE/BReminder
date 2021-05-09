@@ -13,7 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- CSS
-	 <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
+	 <link rel="stylesheet" type="text/css" href="">
     -->
     <title>Breminder</title>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -22,28 +22,48 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">BReminder</a>
+      <a class="navbar-brand" href="{% url 'index' %}">
+	  <!--<img src={% static 'favicon.png' %} width="30" height="30" class="d-inline-block align-top" alt="">-->
+	  BReminder</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
 			{% if user.is_authenticated %}
+			
 			<li class="nav-item">
+				{% if request.path == '/home/' %}
+				<a class="nav-link active" href="{% url 'home' %}">Home</a>
+				{% else %}
 				<a class="nav-link" href="{% url 'home' %}">Home</a>
+				{% endif %}
 			</li>
+			
 			{% endif %}
+			
 			<li class="nav-item">
+				{% if request.path == '/about/' %}
+				<a class="nav-link active" href="{% url 'about' %}">About</a>
+				{% else %}
 				<a class="nav-link" href="{% url 'about' %}">About</a>
+				{% endif %}
 			</li>
+			
+			
 			<li class="nav-item">
+				{% if request.path == '/contact/' %}
+				<a class="nav-link active" href="{% url 'contact' %}">Contact</a>
+				{% else %}
 				<a class="nav-link" href="{% url 'contact' %}">Contact</a>
+				{% endif %}
 			</li>
+			
 		</ul>
 		<ul class="navbar-nav " >
             {% if user.is_authenticated %}
 			<li  class="nav-item">
-				<a class="nav-link" href="{% url 'add_birthday' %}">+ Birthday</a>
+				<a class="nav-link text-primary" href="{% url 'add_birthday' %}">+ Birthday</a>
 			</li>
 			<li class="nav-item dropdown">
         		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,16 +71,15 @@
         		</a>
         		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
           			<a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+					<a class="dropdown-item text-success" href="{% url 'export' %}">Export Birtdays</a>
           			<a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
           			<div class="dropdown-divider"></div>
-          			<a class="dropdown-item" href="{% url 'delete_user' %}">Delete account</a>
+					<a class="dropdown-item text-warning" href="{% url 'delete_user_birthdays' %}" data-toggle="modal" data-target=".bd-example-modal-sm">Delete all birthdays</a>
+          			<a class="dropdown-item text-danger" href="{% url 'delete_user' %}">Delete account</a>
         		</div>
       		</li>
             <li  class="nav-item">
-				<a class="nav-link" href="{% url 'profile' %}">Profile</a>
-			</li>
-            <li  class="nav-item">
-				<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+				<a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
 			</li>
             {% else %}
             <li  class="nav-item">
@@ -99,11 +118,12 @@
 					</div>   
 					<div class="card-body">
 						Scan QR code to connect:
-						<image src="/media/qr.png" alt='QR code'>
-						Birthdays in current month: 					
+						<image class='img-fluid' src="/media/qr.png" alt='QR code'>
+						
+						<h5>Birthdays in current month:</h5> 					
 						<ul class="list-group">
 							{% for person in birthays_this_month %}
-							<li class="list-group-item list-group-item-light">{{person.fname}}</li>
+							<li class="list-group-item list-group-item-light">{{person.fname}} {{person.lname}} ({{person.dob}})</li>
 							{% empty %}
 							<li class="list-group-item list-group-item-light">No Birtdays!!!</li>
 							{% endfor %}
@@ -115,6 +135,32 @@
 			{% endif %}
 		</div>
 	</div>	
+	<!--confirmation-->
+	<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					All the birthdays will be removed.
+					After deletion data can not be restored.
+					please confirm to delete or cancel.
+				</div>
+				<div class="modal-footer">
+					<a href="{% url 'delete_user_birthdays' %}" class="btn btn-danger" >Confirm</a>
+					<button type="button" class="btn btn-secondary " data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="bd-footer text-muted">
+		<hr>
+		<center><p> <i class="fa fa-chevron-left"></i><i class="fa fa-chevron-right"></i> by @shubham_c_h</p></center>
+	</footer>
 
 <!--
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

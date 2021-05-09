@@ -1,0 +1,12 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Error 404</h1>
+  <p class="lead">Page not found!</p>
+  <hr class="my-4">
+  <p>Go to main page by clicking below button</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">Click Here</a>
+  </p>
+</div>
+{% endblock content %}
