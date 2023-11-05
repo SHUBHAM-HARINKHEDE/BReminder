@@ -93,7 +93,7 @@ urlpatterns = [
     path('',user_views.index,name="index"),
     #export csv
     path('export',user_views.export,name="export"),
-    #path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon.png'))),
+    # path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon.png'))),
 ]
 #to access media files on browswer
 if settings.DEBUG:

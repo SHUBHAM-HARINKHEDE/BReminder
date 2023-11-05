@@ -1,7 +1,7 @@
 import os
 #This will parse the values of the DATABASE_URL environment variable
 #and convert them to something Django can understand.
-import dj_database_url 
+# import dj_database_url 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     #cryspy forms
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -73,9 +74,10 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #Database heroku plsql
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -111,20 +113,20 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL ='/media/'
 
 #crispy forms
-CRISPY_TEMPLATE_PAC = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SELECT2_JS = 'assets/js/select2.min.js'
 SELECT2_CSS = 'assets/css/select2.css'
 

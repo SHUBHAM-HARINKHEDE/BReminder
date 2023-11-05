@@ -26,8 +26,8 @@ def index(request):
 
 def handler404(request, exception):
     return render(request,'user/404.html')
-def handler500(request, exception):
-    return render(request,'user/500.html')
+def handler500(request, *args, **argv):
+    return render(request,'user/500.html',status=500)
 
 @login_required 
 def home(request,*args):
