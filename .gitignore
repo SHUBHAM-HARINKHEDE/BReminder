@@ -2,4 +2,5 @@ env/
 *.pyc
 .env
 .vscode/
+myenv/
 
