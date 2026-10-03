@@ -7,13 +7,13 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-default-1234567890')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'),'*']
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST', '*'), '*']
 
 # Application definition
 
